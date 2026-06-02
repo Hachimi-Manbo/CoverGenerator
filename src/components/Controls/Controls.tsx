@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Icon } from '@iconify/react';
 import IconPicker from './IconPicker';
 import CollapsibleSection from './CollapsibleSection';
+import ShortcutsHelp from '../ProjectManager/ShortcutsHelp';
+import { exportSingleCover, exportMultipleRatios } from '@/lib/export';
 
 /**
  * Controls 组件 - 编辑控制面板
@@ -24,15 +26,90 @@ const Controls: React.FC = () => {
     updateBackground,
     updatePreviewRatio,
     updateRatios,
+    saveToFile,
+    loadFromFile,
   } = useCoverStore();
+
+  const [isExporting, setIsExporting] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+
+  // 导出当前比例
+  const handleExport = async () => {
+    setIsExporting(true);
+    try {
+      await exportSingleCover(previewRatio);
+    } catch (error) {
+      console.error('Export failed:', error);
+      alert('导出失败，请重试');
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  // 批量导出所有选中比例
+  const handleExportAll = async () => {
+    if (selectedRatios.length === 0) {
+      alert('请至少选择一个比例');
+      return;
+    }
+
+    setIsExporting(true);
+    try {
+      const element = document.getElementById('cover-canvas');
+      if (!element) {
+        throw new Error('Canvas element not found');
+      }
+      
+      const baseFilename = text.title
+        .replace(/[^a-zA-Z0-9\u4e00-\u9fa5]/g, '-')
+        .substring(0, 50) || 'cover';
+      
+      await exportMultipleRatios(element, selectedRatios, baseFilename);
+      alert(`成功导出 ${selectedRatios.length} 个文件！`);
+    } catch (error) {
+      console.error('Batch export failed:', error);
+      alert('批量导出失败，请重试');
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  // 保存项目
+  const handleSaveProject = async () => {
+    setIsSaving(true);
+    try {
+      const filename = `${text.title.replace(/[^a-zA-Z0-9\u4e00-\u9fa5]/g, '-').substring(0, 30)}-project.json`;
+      await saveToFile(filename);
+      alert('项目已保存！');
+    } catch (error) {
+      console.error('Save project failed:', error);
+      alert('保存项目失败，请重试');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  // 加载项目
+  const handleLoadProject = async () => {
+    try {
+      await loadFromFile();
+      alert('项目已加载！');
+    } catch (error) {
+      console.error('Load project failed:', error);
+      alert('加载项目失败，请重试');
+    }
+  };
 
   return (
     <div className="h-full overflow-y-auto bg-white border-r border-gray-200">
       <div className="p-6 space-y-4">
         {/* 标题 */}
         <div className="border-b pb-4">
-          <h1 className="text-2xl font-bold text-gray-900">封面生成器</h1>
-          <p className="text-sm text-gray-500 mt-1">Cover Generator</p>
+          <div className="flex items-center justify-between mb-1">
+            <h1 className="text-2xl font-bold text-gray-900">封面生成器</h1>
+            <ShortcutsHelp />
+          </div>
+          <p className="text-sm text-gray-500">Cover Generator</p>
         </div>
 
         {/* 主题选择 */}
@@ -596,12 +673,49 @@ const Controls: React.FC = () => {
           </select>
         </CollapsibleSection>
 
-        {/* 导出按钮 */}
-        <div className="pt-4">
-          <Button className="w-full" size="lg">
+        {/* 操作按钮 */}
+        <div className="pt-4 space-y-3 border-t">
+          {/* 导出当前比例 */}
+          <Button 
+            className="w-full" 
+            size="lg"
+            onClick={handleExport}
+            disabled={isExporting}
+          >
             <Icon icon="mdi:download" width={20} className="mr-2" />
-            导出封面
+            {isExporting ? '导出中...' : '导出当前比例'}
           </Button>
+
+          {/* 批量导出 */}
+          <Button 
+            className="w-full" 
+            size="lg"
+            variant="outline"
+            onClick={handleExportAll}
+            disabled={isExporting || selectedRatios.length === 0}
+          >
+            <Icon icon="mdi:folder-multiple-image" width={20} className="mr-2" />
+            批量导出 ({selectedRatios.length})
+          </Button>
+
+          {/* 项目管理 */}
+          <div className="grid grid-cols-2 gap-2 pt-2">
+            <Button 
+              variant="outline"
+              onClick={handleSaveProject}
+              disabled={isSaving}
+            >
+              <Icon icon="mdi:content-save" width={18} className="mr-1.5" />
+              保存项目
+            </Button>
+            <Button 
+              variant="outline"
+              onClick={handleLoadProject}
+            >
+              <Icon icon="mdi:folder-open" width={18} className="mr-1.5" />
+              加载项目
+            </Button>
+          </div>
         </div>
       </div>
     </div>

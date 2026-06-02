@@ -1,6 +1,12 @@
 import { toPng } from 'html-to-image';
 import type { ExportOptions } from '@/types';
 import { RATIOS } from './constants';
+import { 
+  isTauri, 
+  saveBinaryFile, 
+  openSaveDialog, 
+  openDirectoryDialog 
+} from './tauri';
 
 /**
  * 导出画布为 PNG 图片
@@ -31,7 +37,7 @@ export async function exportCanvas(
 }
 
 /**
- * 下载图片到本地
+ * 下载图片到本地（浏览器环境）
  */
 export function downloadImage(blob: Blob, filename: string): void {
   const url = URL.createObjectURL(blob);
@@ -45,6 +51,61 @@ export function downloadImage(blob: Blob, filename: string): void {
 }
 
 /**
+ * 导出单个比例的封面图片
+ */
+export async function exportSingleCover(
+  ratioId: string,
+  filename?: string
+): Promise<void> {
+  const element = document.getElementById('cover-canvas');
+  if (!element) {
+    throw new Error('Canvas element not found');
+  }
+
+  const ratio = RATIOS.find((r) => r.id === ratioId);
+  if (!ratio) {
+    throw new Error(`Invalid ratio: ${ratioId}`);
+  }
+
+  const blob = await exportCanvas(element, {
+    ratio: ratioId as any,
+    scale: 2,
+    quality: 0.95,
+  });
+
+  const defaultFilename = filename || `cover-${ratio.width}x${ratio.height}.png`;
+
+  // 如果是 Tauri 环境，尝试使用原生保存对话框
+  if (isTauri()) {
+    try {
+      const arrayBuffer = await blob.arrayBuffer();
+      const uint8Array = new Uint8Array(arrayBuffer);
+      
+      const filePath = await openSaveDialog({
+        defaultPath: defaultFilename,
+        filters: [
+          {
+            name: 'PNG Image',
+            extensions: ['png'],
+          },
+        ],
+      });
+
+      if (filePath) {
+        await saveBinaryFile(filePath, uint8Array);
+        return;
+      }
+    } catch (error) {
+      console.warn('Tauri save dialog failed, falling back to browser download:', error);
+      // 降级到浏览器下载
+    }
+  }
+  
+  // 浏览器环境或 Tauri 失败时，直接下载
+  downloadImage(blob, defaultFilename);
+}
+
+/**
  * 批量导出多个比例
  */
 export async function exportMultipleRatios(
@@ -54,6 +115,24 @@ export async function exportMultipleRatios(
   scale = 2,
   quality = 0.95
 ): Promise<void> {
+  // 如果是 Tauri 环境，先让用户选择保存目录
+  let saveDir: string | null = null;
+  if (isTauri()) {
+    try {
+      saveDir = await openDirectoryDialog({
+        title: '选择保存目录',
+      });
+
+      if (!saveDir) {
+        // 用户取消了选择
+        return;
+      }
+    } catch (error) {
+      console.warn('Tauri directory dialog failed, falling back to browser download:', error);
+      // 降级到浏览器下载模式
+    }
+  }
+
   for (const ratioId of ratioIds) {
     const ratio = RATIOS.find((r) => r.id === ratioId);
     if (!ratio) continue;
@@ -65,9 +144,19 @@ export async function exportMultipleRatios(
     });
 
     const filename = `${baseFilename}-${ratio.width}x${ratio.height}.png`;
-    downloadImage(blob, filename);
+
+    if (isTauri() && saveDir) {
+      // Tauri 环境：保存到选定目录
+      const arrayBuffer = await blob.arrayBuffer();
+      const uint8Array = new Uint8Array(arrayBuffer);
+      const filePath = `${saveDir}/${filename}`;
+      await saveBinaryFile(filePath, uint8Array);
+    } else {
+      // 浏览器环境：下载文件
+      downloadImage(blob, filename);
+    }
 
     // 添加延迟避免浏览器阻止多个下载
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    await new Promise((resolve) => setTimeout(resolve, 300));
   }
 }
