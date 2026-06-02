@@ -60,7 +60,7 @@ export async function openSaveDialog(options: {
 /**
  * 打开目录选择对话框（浏览器降级）
  */
-export async function openDirectoryDialog(options?: {
+export async function openDirectoryDialog(_options?: {
   title?: string;
   defaultPath?: string;
 }): Promise<string | null> {
@@ -84,7 +84,7 @@ export async function saveBinaryFile(
 /**
  * 读取文本文件（浏览器降级）
  */
-export async function readTextFile(filePath: string): Promise<string> {
+export async function readTextFile(_filePath: string): Promise<string> {
   console.warn('readTextFile not fully supported in browser mode');
   throw new Error('readTextFile is only available in Tauri environment');
 }
@@ -107,7 +107,7 @@ export async function saveTextFile(
 export async function saveFile(
   blob: Blob,
   defaultName: string,
-  filters?: { name: string; extensions: string[] }[]
+  _filters?: { name: string; extensions: string[] }[]
 ): Promise<void> {
   browserSaveFile(blob, defaultName);
 }
@@ -116,7 +116,7 @@ export async function saveFile(
  * 打开文件选择对话框
  */
 export async function openFile(
-  filters?: { name: string; extensions: string[] }[]
+  _filters?: { name: string; extensions: string[] }[]
 ): Promise<string | null> {
   return browserOpenFile();
 }

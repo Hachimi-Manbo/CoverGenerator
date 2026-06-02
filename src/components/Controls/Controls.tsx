@@ -25,7 +25,6 @@ const Controls: React.FC = () => {
     updateIcon,
     updateBackground,
     updatePreviewRatio,
-    updateRatios,
     saveToFile,
     loadFromFile,
   } = useCoverStore();

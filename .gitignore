@@ -48,6 +48,31 @@ Desktop.ini
 .env.test.local
 .env.production.local
 
+# User generated test files (optional)
+*.cover.json
+test-*.json
+test-*.png
+
+# Build artifacts that might be copied to root
+*.msi
+*.exe
+*.dmg
+*.app
+*.deb
+*.AppImage
+
+# Tauri CLI cache
+.tauri/
+
+# Debug logs
+debug.log
+tauri.log
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
 # Temporary Files
 *.tmp
 *.temp

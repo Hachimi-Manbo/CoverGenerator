@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoverGenerator 图标生成器</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+        canvas {
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: block;
+        }
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 10px;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: scale(1.05);
+        }
+        .preview {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .preview-item {
+            text-align: center;
+        }
+        .preview-item canvas {
+            border: 1px solid #ddd;
+        }
+        .preview-item p {
+            margin: 5px 0;
+            color: #666;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 CoverGenerator 图标生成器</h1>
+        <canvas id="icon" width="1024" height="1024"></canvas>
+        
+        <div>
+            <button onclick="generateIcon()">重新生成图标</button>
+            <button onclick="downloadIcon()">下载图标 (1024x1024)</button>
+        </div>
+
+        <div class="preview">
+            <div class="preview-item">
+                <canvas id="preview512" width="512" height="512"></canvas>
+                <p>512x512</p>
+            </div>
+            <div class="preview-item">
+                <canvas id="preview256" width="256" height="256"></canvas>
+                <p>256x256</p>
+            </div>
+            <div class="preview-item">
+                <canvas id="preview128" width="128" height="128"></canvas>
+                <p>128x128</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('icon');
+        const ctx = canvas.getContext('2d');
+
+        function drawIcon() {
+            const size = 1024;
+            const padding = size * 0.1;
+            const innerSize = size - padding * 2;
+
+            // 清空画布
+            ctx.clearRect(0, 0, size, size);
+
+            // 背景渐变
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#667eea');
+            gradient.addColorStop(1, '#764ba2');
+            
+            // 圆形背景
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(size/2, size/2, size/2, 0, Math.PI * 2);
+            ctx.fill();
+
+            // 绘制画框图案
+            ctx.strokeStyle = 'white';
+            ctx.lineWidth = size * 0.08;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+
+            // 外框
+            const frameMargin = size * 0.2;
+            const frameSize = size - frameMargin * 2;
+            ctx.strokeRect(frameMargin, frameMargin, frameSize, frameSize);
+
+            // 内部山峰图案（代表图片/风景）
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.beginPath();
+            const mountainY = size * 0.65;
+            ctx.moveTo(frameMargin + size * 0.05, mountainY);
+            ctx.lineTo(size * 0.35, size * 0.4);
+            ctx.lineTo(size * 0.5, size * 0.5);
+            ctx.lineTo(size * 0.65, size * 0.35);
+            ctx.lineTo(frameMargin + frameSize - size * 0.05, mountainY);
+            ctx.lineTo(frameMargin + size * 0.05, mountainY);
+            ctx.fill();
+
+            // 太阳/月亮
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.beginPath();
+            ctx.arc(size * 0.7, size * 0.35, size * 0.08, 0, Math.PI * 2);
+            ctx.fill();
+
+            // 更新预览
+            updatePreviews();
+        }
+
+        function updatePreviews() {
+            [512, 256, 128].forEach(previewSize => {
+                const previewCanvas = document.getElementById(`preview${previewSize}`);
+                const previewCtx = previewCanvas.getContext('2d');
+                previewCtx.drawImage(canvas, 0, 0, previewSize, previewSize);
+            });
+        }
+
+        function generateIcon() {
+            drawIcon();
+        }
+
+        function downloadIcon() {
+            const link = document.createElement('a');
+            link.download = 'icon.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+
+        // 初始化
+        drawIcon();
+    </script>
+</body>
+</html>

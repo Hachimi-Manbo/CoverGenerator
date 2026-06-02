@@ -1,7 +1,6 @@
 import React from 'react';
 import useCoverStore from '@/store/coverStore';
 import { Icon } from '@iconify/react';
-import { Button } from '@/components/ui/button';
 
 /**
  * RecentProjects 组件 - 最近项目列表
@@ -19,7 +18,7 @@ const RecentProjects: React.FC = () => {
     );
   }
 
-  const handleLoadRecent = async (path: string) => {
+  const handleLoadRecent = async (_path: string) => {
     try {
       await loadFromFile();
     } catch (error) {

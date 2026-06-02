@@ -1,8 +1,8 @@
 [package]
 name = "cover-generator"
-version = "0.1.0"
-description = "A Tauri App"
-authors = ["you"]
+version = "1.0.0"
+description = "封面生成器 - 功能强大的封面设计桌面应用"
+authors = ["CoverGenerator Team"]
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -22,4 +22,11 @@ tauri = { version = "2", features = [] }
 tauri-plugin-opener = "2"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
+
+[profile.release]
+opt-level = "z"      # 最大体积优化
+lto = true           # 链接时优化
+codegen-units = 1    # 单个代码生成单元
+strip = true         # 移除调试符号
+panic = "abort"      # 减少 panic 处理代码
 
