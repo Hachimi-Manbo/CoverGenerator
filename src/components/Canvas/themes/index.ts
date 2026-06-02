@@ -9,7 +9,6 @@ import StylishTheme from './StylishTheme';
 import OutlineTheme from './OutlineTheme';
 import PreviewTheme from './PreviewTheme';
 import BackgroundTheme from './BackgroundTheme';
-import MobileMockupTheme from './MobileMockupTheme';
 
 import type { ThemeId } from '@/types';
 import type { ThemeProps } from './types';
@@ -22,7 +21,6 @@ export const THEME_COMPONENTS: Record<ThemeId, React.FC<ThemeProps>> = {
   'outline': OutlineTheme,
   'preview': PreviewTheme,
   'background': BackgroundTheme,
-  'mobile-mockup': MobileMockupTheme,
 };
 
 // 单独导出
@@ -33,7 +31,6 @@ export {
   OutlineTheme,
   PreviewTheme,
   BackgroundTheme,
-  MobileMockupTheme,
 };
 
 export type { ThemeProps };

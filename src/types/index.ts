@@ -5,8 +5,7 @@ export type ThemeId =
   | 'stylish' 
   | 'outline' 
   | 'preview' 
-  | 'background' 
-  | 'mobile-mockup';
+  | 'background';
 
 // 比例类型
 export type RatioId = 

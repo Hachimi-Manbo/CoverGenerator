@@ -32,11 +32,6 @@ export const THEMES: ThemeConfig[] = [
     label: 'Background',
     description: '背景图片风格',
   },
-  {
-    id: 'mobile-mockup',
-    label: 'Mobile Mockup',
-    description: '移动端预览风格',
-  },
 ];
 
 // 比例配置
