@@ -4,6 +4,10 @@
 
 A lightweight blog and social media cover generator with online image search and local upload capabilities.
 
+本人是感知算法工程师，完全不懂前端。创建这个项目的直接原因是网上的封面生成工具不能满足**个人**需求。
+
+本项目完全由Claude进行开发和调试。
+
 ## ✨ 功能特性
 
 - 🎨 **7种主题模板** - Basic、Modern、Stylish、Outline、Preview、Background、Mobile Mockup
@@ -63,18 +67,11 @@ cover-generator/
 └── package.json
 ```
 
-## 📖 详细文档
-
-查看 [开发计划.md](开发计划.md) 了解：
-- 完整的技术选型分析
-- 7个主题的设计规范
-- 分阶段开发计划 (Phase 1-6)
-- 图标系统和导出功能说明
 
 ## 🎯 开发进度
 
 - [x] Phase 1: 环境配置和基础结构
-- [ ] Phase 2: 主题系统实现
+- [x] Phase 2: 主题系统实现
 - [ ] Phase 3: 图标和文字控制
 - [ ] Phase 4: 背景图片和搜索
 - [ ] Phase 5: 项目管理和批量导出
