@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useCoverStore from '@/store/coverStore';
 import { THEMES, RATIOS } from '@/lib/constants';
 import { Button } from '@/components/ui/button';
 import { Icon } from '@iconify/react';
+import IconPicker from './IconPicker';
+import CollapsibleSection from './CollapsibleSection';
 
 /**
  * Controls 组件 - 编辑控制面板
@@ -26,7 +28,7 @@ const Controls: React.FC = () => {
 
   return (
     <div className="h-full overflow-y-auto bg-white border-r border-gray-200">
-      <div className="p-6 space-y-8">
+      <div className="p-6 space-y-4">
         {/* 标题 */}
         <div className="border-b pb-4">
           <h1 className="text-2xl font-bold text-gray-900">封面生成器</h1>
@@ -34,11 +36,7 @@ const Controls: React.FC = () => {
         </div>
 
         {/* 主题选择 */}
-        <div>
-          <h2 className="text-base font-semibold text-gray-900 mb-3 flex items-center gap-2">
-            <Icon icon="mdi:palette" width={20} />
-            主题模板
-          </h2>
+        <CollapsibleSection title="主题模板" icon="mdi:palette" defaultOpen={true}>
           <div className="grid grid-cols-1 gap-2">
             {THEMES.map((t) => (
               <button
@@ -57,14 +55,10 @@ const Controls: React.FC = () => {
               </button>
             ))}
           </div>
-        </div>
+        </CollapsibleSection>
 
         {/* 文字编辑 */}
-        <div>
-          <h2 className="text-base font-semibold text-gray-900 mb-3 flex items-center gap-2">
-            <Icon icon="mdi:text" width={20} />
-            文字内容
-          </h2>
+        <CollapsibleSection title="文字内容" icon="mdi:text" defaultOpen={true}>
           <div className="space-y-3">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1.5">
@@ -103,6 +97,33 @@ const Controls: React.FC = () => {
               />
             </div>
 
+            {/* 字体选择 */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                字体
+              </label>
+              <select
+                value={text.font}
+                onChange={(e) => updateText({ font: e.target.value })}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
+              >
+                <option value="Inter">Inter</option>
+                <option value="Roboto">Roboto</option>
+                <option value="Poppins">Poppins</option>
+                <option value="Montserrat">Montserrat</option>
+                <option value="Open Sans">Open Sans</option>
+                <option value="Lato">Lato</option>
+                <option value="Source Sans Pro">Source Sans Pro</option>
+                <option value="Raleway">Raleway</option>
+                <option value="Ubuntu">Ubuntu</option>
+                <option value="Nunito">Nunito</option>
+                <option value="Arial">Arial</option>
+                <option value="Times New Roman">Times New Roman</option>
+                <option value="Georgia">Georgia</option>
+                <option value="Courier New">Courier New</option>
+              </select>
+            </div>
+
             {/* 字体大小 */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1.5">
@@ -116,6 +137,28 @@ const Controls: React.FC = () => {
                 onChange={(e) => updateText({ fontSize: parseInt(e.target.value) })}
                 className="w-full"
               />
+            </div>
+
+            {/* 字重 */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                字体粗细: {text.fontWeight}
+              </label>
+              <input
+                type="range"
+                min="100"
+                max="900"
+                step="100"
+                value={text.fontWeight}
+                onChange={(e) => updateText({ fontWeight: parseInt(e.target.value) })}
+                className="w-full"
+              />
+              <div className="flex justify-between text-xs text-gray-500 mt-1">
+                <span>Thin</span>
+                <span>Normal</span>
+                <span>Bold</span>
+                <span>Black</span>
+              </div>
             </div>
 
             {/* 文字颜色 */}
@@ -139,31 +182,87 @@ const Controls: React.FC = () => {
                 />
               </div>
             </div>
-          </div>
-        </div>
 
-        {/* 图标设置 */}
-        <div>
-          <h2 className="text-base font-semibold text-gray-900 mb-3 flex items-center gap-2">
-            <Icon icon="mdi:image" width={20} />
-            图标
-          </h2>
-          <div className="space-y-3">
+            {/* 文字阴影 */}
+            <div>
+              <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+                <input
+                  type="checkbox"
+                  checked={text.shadow}
+                  onChange={(e) => updateText({ shadow: e.target.checked })}
+                  className="w-4 h-4 rounded border-gray-300"
+                />
+                文字阴影
+              </label>
+              {text.shadow && (
+                <div className="space-y-2 pl-6">
+                  <div>
+                    <label className="block text-xs text-gray-600 mb-1">
+                      阴影模糊: {text.shadowBlur}px
+                    </label>
+                    <input
+                      type="range"
+                      min="0"
+                      max="30"
+                      value={text.shadowBlur}
+                      onChange={(e) => updateText({ shadowBlur: parseInt(e.target.value) })}
+                      className="w-full"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs text-gray-600 mb-1">
+                      阴影颜色
+                    </label>
+                    <input
+                      type="color"
+                      value={text.shadowColor}
+                      onChange={(e) => updateText({ shadowColor: e.target.value })}
+                      className="w-full h-8 rounded border border-gray-300 cursor-pointer"
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* 文字描边 */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                图标 ID (Iconify)
+                描边宽度: {text.strokeWidth}px
               </label>
               <input
-                type="text"
-                value={icon.iconifyId || ''}
-                onChange={(e) => updateIcon({ type: 'iconify', iconifyId: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm font-mono focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="例: logos:react"
+                type="range"
+                min="0"
+                max="5"
+                step="0.5"
+                value={text.strokeWidth}
+                onChange={(e) => updateText({ strokeWidth: parseFloat(e.target.value) })}
+                className="w-full"
               />
-              <p className="text-xs text-gray-500 mt-1">
-                访问 <a href="https://icon-sets.iconify.design/" target="_blank" rel="noopener" className="text-blue-500 hover:underline">Iconify</a> 查找图标
-              </p>
+              {text.strokeWidth > 0 && (
+                <div className="mt-2">
+                  <label className="block text-xs text-gray-600 mb-1">
+                    描边颜色
+                  </label>
+                  <input
+                    type="color"
+                    value={text.strokeColor}
+                    onChange={(e) => updateText({ strokeColor: e.target.value })}
+                    className="w-full h-8 rounded border border-gray-300 cursor-pointer"
+                  />
+                </div>
+              )}
             </div>
+          </div>
+        </CollapsibleSection>
+
+        {/* 图标设置 */}
+        <CollapsibleSection title="图标" icon="mdi:image" defaultOpen={true}>
+          <div className="space-y-3">
+            {/* 图标选择器 */}
+            <IconPicker
+              value={icon.iconifyId || ''}
+              onChange={(iconId) => updateIcon({ type: 'iconify', iconifyId: iconId })}
+            />
 
             {/* 图标大小 */}
             <div>
@@ -201,15 +300,26 @@ const Controls: React.FC = () => {
                 />
               </div>
             </div>
+
+            {/* 图标旋转 */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                旋转角度: {icon.rotation}°
+              </label>
+              <input
+                type="range"
+                min="-180"
+                max="180"
+                value={icon.rotation}
+                onChange={(e) => updateIcon({ rotation: parseInt(e.target.value) })}
+                className="w-full"
+              />
+            </div>
           </div>
-        </div>
+        </CollapsibleSection>
 
         {/* 背景设置 */}
-        <div>
-          <h2 className="text-base font-semibold text-gray-900 mb-3 flex items-center gap-2">
-            <Icon icon="mdi:palette-swatch" width={20} />
-            背景
-          </h2>
+        <CollapsibleSection title="背景" icon="mdi:palette-swatch" defaultOpen={true}>
           <div className="space-y-3">
             {/* 背景类型 */}
             <div>
@@ -333,31 +443,146 @@ const Controls: React.FC = () => {
 
             {/* 图片背景 */}
             {background.type === 'image' && (
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                  图片 URL
-                </label>
-                <input
-                  type="text"
-                  value={background.imageUrl || ''}
-                  onChange={(e) => updateBackground({ imageUrl: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="https://example.com/image.jpg"
-                />
-                <p className="text-xs text-gray-500 mt-1">
-                  或使用 <a href="https://unsplash.com/" target="_blank" rel="noopener" className="text-blue-500 hover:underline">Unsplash</a> 图片链接
-                </p>
+              <div className="space-y-3">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    图片 URL
+                  </label>
+                  <input
+                    type="text"
+                    value={background.imageUrl || ''}
+                    onChange={(e) => updateBackground({ imageUrl: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="https://example.com/image.jpg"
+                  />
+                  <p className="text-xs text-gray-500 mt-1">
+                    或使用 <a href="https://unsplash.com/" target="_blank" rel="noopener" className="text-blue-500 hover:underline">Unsplash</a> 图片链接
+                  </p>
+                </div>
+
+                {/* 图片控制选项 - 仅在有图片时显示 */}
+                {background.imageUrl && (
+                  <div className="space-y-3 pt-2 border-t border-gray-200">
+                    {/* 图片缩放 */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                        缩放: {((background.imageScale || 1) * 100).toFixed(0)}%
+                      </label>
+                      <input
+                        type="range"
+                        min="0.5"
+                        max="3"
+                        step="0.1"
+                        value={background.imageScale || 1}
+                        onChange={(e) => updateBackground({ imageScale: parseFloat(e.target.value) })}
+                        className="w-full"
+                      />
+                    </div>
+
+                    {/* 图片旋转 */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                        旋转: {background.imageRotation || 0}°
+                      </label>
+                      <input
+                        type="range"
+                        min="-180"
+                        max="180"
+                        value={background.imageRotation || 0}
+                        onChange={(e) => updateBackground({ imageRotation: parseInt(e.target.value) })}
+                        className="w-full"
+                      />
+                    </div>
+
+                    {/* 水平位置 */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                        水平位置: {background.imagePositionX || 50}%
+                      </label>
+                      <input
+                        type="range"
+                        min="0"
+                        max="100"
+                        value={background.imagePositionX || 50}
+                        onChange={(e) => updateBackground({ imagePositionX: parseInt(e.target.value) })}
+                        className="w-full"
+                      />
+                    </div>
+
+                    {/* 垂直位置 */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                        垂直位置: {background.imagePositionY || 50}%
+                      </label>
+                      <input
+                        type="range"
+                        min="0"
+                        max="100"
+                        value={background.imagePositionY || 50}
+                        onChange={(e) => updateBackground({ imagePositionY: parseInt(e.target.value) })}
+                        className="w-full"
+                      />
+                    </div>
+
+                    {/* 模糊 */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                        模糊: {background.imageBlur || 0}px
+                      </label>
+                      <input
+                        type="range"
+                        min="0"
+                        max="20"
+                        value={background.imageBlur || 0}
+                        onChange={(e) => updateBackground({ imageBlur: parseInt(e.target.value) })}
+                        className="w-full"
+                      />
+                    </div>
+
+                    {/* 亮度 */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                        亮度: {background.imageBrightness || 100}%
+                      </label>
+                      <input
+                        type="range"
+                        min="0"
+                        max="200"
+                        value={background.imageBrightness || 100}
+                        onChange={(e) => updateBackground({ imageBrightness: parseInt(e.target.value) })}
+                        className="w-full"
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
             )}
+
+            {/* 通用背景效果 */}
+            <div className="pt-3 border-t border-gray-200">
+              <h3 className="text-sm font-medium text-gray-700 mb-2">通用效果</h3>
+              <div className="space-y-3">
+                {/* 圆角半径 */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    圆角: {background.borderRadius || 0}px
+                  </label>
+                  <input
+                    type="range"
+                    min="0"
+                    max="50"
+                    value={background.borderRadius || 0}
+                    onChange={(e) => updateBackground({ borderRadius: parseInt(e.target.value) })}
+                    className="w-full"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
+        </CollapsibleSection>
 
         {/* 比例选择 */}
-        <div>
-          <h2 className="text-base font-semibold text-gray-900 mb-3 flex items-center gap-2">
-            <Icon icon="mdi:aspect-ratio" width={20} />
-            预览比例
-          </h2>
+        <CollapsibleSection title="预览比例" icon="mdi:aspect-ratio" defaultOpen={true}>
           <select
             value={previewRatio}
             onChange={(e) => updatePreviewRatio(e.target.value as any)}
@@ -369,10 +594,10 @@ const Controls: React.FC = () => {
               </option>
             ))}
           </select>
-        </div>
+        </CollapsibleSection>
 
         {/* 导出按钮 */}
-        <div className="pt-4 border-t">
+        <div className="pt-4">
           <Button className="w-full" size="lg">
             <Icon icon="mdi:download" width={20} className="mr-2" />
             导出封面
