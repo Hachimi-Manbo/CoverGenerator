@@ -1,12 +1,14 @@
 import React from 'react';
 import { Icon } from '@iconify/react';
-import type { ThemeProps } from './types';
+import { getScale, type ThemeProps } from './types';
 
 /**
  * BasicTheme - 简洁经典风格
  * 灵感来自 CoverView 的 BasicTheme
  */
-const BasicTheme: React.FC<ThemeProps> = ({ text, icon, background }) => {
+const BasicTheme: React.FC<ThemeProps> = ({ text, icon, background, width }) => {
+  const scale = getScale(width);
+  
   const bgStyle: React.CSSProperties = {
     backgroundColor: background.solidColor || '#4F46E5',
   };
@@ -25,16 +27,19 @@ const BasicTheme: React.FC<ThemeProps> = ({ text, icon, background }) => {
 
   return (
     <div
-      className="relative w-full h-full flex flex-col items-center justify-center p-12"
-      style={bgStyle}
+      className="relative w-full h-full flex flex-col items-center justify-center"
+      style={{
+        ...bgStyle,
+        padding: `${48 * scale}px`,
+      }}
     >
       {/* 图标 */}
       {icon.type === 'iconify' && icon.iconifyId && (
-        <div className="mb-8">
+        <div style={{ marginBottom: `${32 * scale}px` }}>
           <Icon
             icon={icon.iconifyId}
-            width={icon.size}
-            height={icon.size}
+            width={icon.size * scale}
+            height={icon.size * scale}
             style={{
               color: icon.color,
               transform: `rotate(${icon.rotation}deg)`,
@@ -45,13 +50,13 @@ const BasicTheme: React.FC<ThemeProps> = ({ text, icon, background }) => {
 
       {/* 自定义图标/图片 */}
       {icon.type === 'custom' && icon.customUrl && (
-        <div className="mb-8">
+        <div style={{ marginBottom: `${32 * scale}px` }}>
           <img
             src={icon.customUrl}
             alt="Custom icon"
             style={{
-              width: icon.size,
-              height: icon.size,
+              width: icon.size * scale,
+              height: icon.size * scale,
               transform: `rotate(${icon.rotation}deg)`,
             }}
           />
@@ -60,17 +65,18 @@ const BasicTheme: React.FC<ThemeProps> = ({ text, icon, background }) => {
 
       {/* 标题 */}
       <h1
-        className="text-center font-bold leading-tight mb-4"
+        className="text-center font-bold leading-tight"
         style={{
-          fontSize: text.fontSize,
+          fontSize: text.fontSize * scale,
           fontWeight: text.fontWeight,
           color: text.color,
           fontFamily: text.font,
+          marginBottom: `${16 * scale}px`,
           textShadow: text.shadow
-            ? `0 4px ${text.shadowBlur}px ${text.shadowColor}`
+            ? `0 ${4 * scale}px ${text.shadowBlur * scale}px ${text.shadowColor}`
             : 'none',
           WebkitTextStroke: text.strokeWidth > 0
-            ? `${text.strokeWidth}px ${text.strokeColor}`
+            ? `${text.strokeWidth * scale}px ${text.strokeColor}`
             : 'none',
         }}
       >
@@ -80,12 +86,13 @@ const BasicTheme: React.FC<ThemeProps> = ({ text, icon, background }) => {
       {/* 副标题 */}
       {text.subtitle && (
         <p
-          className="text-center opacity-90 mb-6"
+          className="text-center opacity-90"
           style={{
-            fontSize: text.fontSize * 0.4,
+            fontSize: text.fontSize * 0.4 * scale,
             fontWeight: text.fontWeight - 200,
             color: text.color,
             fontFamily: text.font,
+            marginBottom: `${24 * scale}px`,
           }}
         >
           {text.subtitle}
@@ -95,9 +102,10 @@ const BasicTheme: React.FC<ThemeProps> = ({ text, icon, background }) => {
       {/* 作者 */}
       {text.author && (
         <div
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 opacity-80"
+          className="absolute left-1/2 transform -translate-x-1/2 opacity-80"
           style={{
-            fontSize: text.fontSize * 0.35,
+            bottom: `${32 * scale}px`,
+            fontSize: text.fontSize * 0.35 * scale,
             fontWeight: text.fontWeight - 100,
             color: text.color,
             fontFamily: text.font,

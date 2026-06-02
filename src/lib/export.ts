@@ -23,17 +23,37 @@ export async function exportCanvas(
   const width = ratio.width * options.scale;
   const height = ratio.height * options.scale;
 
-  const dataUrl = await toPng(element, {
-    width,
-    height,
-    pixelRatio: options.scale,
-    quality: options.quality,
-    cacheBust: true,
-  });
+  // 保存原始样式
+  const originalWidth = element.style.width;
+  const originalHeight = element.style.height;
+  const originalMaxWidth = element.style.maxWidth;
+  const originalTransform = element.style.transform;
+  
+  try {
+    // 临时移除 transform 缩放，设置为目标尺寸
+    element.style.transform = 'none';
+    element.style.width = `${width}px`;
+    element.style.height = `${height}px`;
+    element.style.maxWidth = 'none';
 
-  // 转换 data URL 为 Blob
-  const response = await fetch(dataUrl);
-  return response.blob();
+    const dataUrl = await toPng(element, {
+      width,
+      height,
+      pixelRatio: 1,
+      quality: options.quality,
+      cacheBust: true,
+    });
+
+    // 转换 data URL 为 Blob
+    const response = await fetch(dataUrl);
+    return response.blob();
+  } finally {
+    // 恢复原始样式
+    element.style.transform = originalTransform;
+    element.style.width = originalWidth;
+    element.style.height = originalHeight;
+    element.style.maxWidth = originalMaxWidth;
+  }
 }
 
 /**
@@ -69,7 +89,7 @@ export async function exportSingleCover(
 
   const blob = await exportCanvas(element, {
     ratio: ratioId as any,
-    scale: 2,
+    scale: 1,
     quality: 0.95,
   });
 
@@ -112,7 +132,7 @@ export async function exportMultipleRatios(
   element: HTMLElement,
   ratioIds: string[],
   baseFilename: string,
-  scale = 2,
+  scale = 1,
   quality = 0.95
 ): Promise<void> {
   // 如果是 Tauri 环境，先让用户选择保存目录

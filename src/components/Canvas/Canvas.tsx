@@ -31,39 +31,40 @@ const Canvas: React.FC = () => {
   }
 
   const aspectRatio = ratio.width / ratio.height;
+  
+  // 计算预览缩放比例（将完整分辨率缩放到 900px 宽度）
+  const previewMaxWidth = 900;
+  const previewScale = Math.min(previewMaxWidth / ratio.width, 1);
 
   return (
     <div className="flex items-center justify-center w-full h-full bg-gray-100 p-8">
-      {/* 画布容器 - 用于导出 */}
+      {/* 外层容器 - 控制显示尺寸 */}
       <div
-        id="cover-canvas"
-        className="relative shadow-2xl overflow-hidden bg-white"
+        className="relative"
         style={{
-          width: '100%',
-          maxWidth: '900px',
-          aspectRatio: aspectRatio,
+          width: ratio.width * previewScale,
+          height: ratio.height * previewScale,
         }}
       >
-        {/* 渲染主题组件 */}
-        <ThemeComponent
-          text={text}
-          icon={icon}
-          background={background}
-          width={ratio.width}
-          height={ratio.height}
-        />
-
-        {/* 调试信息 - 仅开发时显示 */}
-        {process.env.NODE_ENV === 'development' && (
-          <>
-            <div className="absolute top-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
-              {theme}
-            </div>
-            <div className="absolute top-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
-              {ratio.id}
-            </div>
-          </>
-        )}
+        {/* 画布容器 - 始终以完整分辨率渲染，通过 transform 缩放显示 */}
+        <div
+          id="cover-canvas"
+          className="relative shadow-2xl overflow-hidden bg-white origin-top-left"
+          style={{
+            width: ratio.width,
+            height: ratio.height,
+            transform: `scale(${previewScale})`,
+          }}
+        >
+          {/* 渲染主题组件 */}
+          <ThemeComponent
+            text={text}
+            icon={icon}
+            background={background}
+            width={ratio.width}
+            height={ratio.height}
+          />
+        </div>
       </div>
     </div>
   );

@@ -1,12 +1,13 @@
 import React from 'react';
 import { Icon } from '@iconify/react';
-import type { ThemeProps } from './types';
+import { getScale, type ThemeProps } from './types';
 
 /**
  * ModernTheme - 现代卡片风格
  * 带有阴影的卡片式设计
  */
-const ModernTheme: React.FC<ThemeProps> = ({ text, icon, background }) => {
+const ModernTheme: React.FC<ThemeProps> = ({ text, icon, background, width }) => {
+  const scale = getScale(width);
   const bgStyle: React.CSSProperties = {
     backgroundColor: background.solidColor || '#4F46E5',
   };
@@ -23,23 +24,35 @@ const ModernTheme: React.FC<ThemeProps> = ({ text, icon, background }) => {
 
   return (
     <div
-      className="relative w-full h-full flex items-center justify-center p-12"
-      style={bgStyle}
+      className="relative w-full h-full flex items-center justify-center"
+      style={{
+        ...bgStyle,
+        padding: `${48 * scale}px`,
+      }}
     >
       {/* 内容卡片 */}
       <div
-        className="relative bg-white/10 backdrop-blur-sm rounded-3xl p-12 max-w-4xl shadow-2xl"
+        className="relative bg-white/10 backdrop-blur-sm max-w-4xl shadow-2xl"
         style={{
-          borderRadius: background.borderRadius || 24,
+          borderRadius: `${(background.borderRadius || 24) * scale}px`,
+          padding: `${48 * scale}px`,
         }}
       >
         {/* 图标 - 左上角 */}
         {icon.type === 'iconify' && icon.iconifyId && (
-          <div className="absolute -top-6 -left-6 bg-white rounded-2xl p-4 shadow-lg">
+          <div
+            className="absolute bg-white shadow-lg"
+            style={{
+              top: `${-24 * scale}px`,
+              left: `${-24 * scale}px`,
+              borderRadius: `${32 * scale}px`,
+              padding: `${16 * scale}px`,
+            }}
+          >
             <Icon
               icon={icon.iconifyId}
-              width={icon.size * 0.8}
-              height={icon.size * 0.8}
+              width={icon.size * 0.8 * scale}
+              height={icon.size * 0.8 * scale}
               style={{
                 color: background.solidColor || '#4F46E5',
                 transform: `rotate(${icon.rotation}deg)`,
@@ -49,13 +62,21 @@ const ModernTheme: React.FC<ThemeProps> = ({ text, icon, background }) => {
         )}
 
         {icon.type === 'custom' && icon.customUrl && (
-          <div className="absolute -top-6 -left-6 bg-white rounded-2xl p-4 shadow-lg">
+          <div
+            className="absolute bg-white shadow-lg"
+            style={{
+              top: `${-24 * scale}px`,
+              left: `${-24 * scale}px`,
+              borderRadius: `${32 * scale}px`,
+              padding: `${16 * scale}px`,
+            }}
+          >
             <img
               src={icon.customUrl}
               alt="Custom icon"
               style={{
-                width: icon.size * 0.8,
-                height: icon.size * 0.8,
+                width: icon.size * 0.8 * scale,
+                height: icon.size * 0.8 * scale,
                 transform: `rotate(${icon.rotation}deg)`,
               }}
             />
@@ -64,14 +85,15 @@ const ModernTheme: React.FC<ThemeProps> = ({ text, icon, background }) => {
 
         {/* 标题 */}
         <h1
-          className="font-bold leading-tight mb-4"
+          className="font-bold leading-tight"
           style={{
-            fontSize: text.fontSize,
+            fontSize: text.fontSize * scale,
             fontWeight: text.fontWeight,
             color: text.color,
             fontFamily: text.font,
+            marginBottom: `${16 * scale}px`,
             textShadow: text.shadow
-              ? `0 4px ${text.shadowBlur}px ${text.shadowColor}`
+              ? `0 ${4 * scale}px ${text.shadowBlur * scale}px ${text.shadowColor}`
               : 'none',
           }}
         >
@@ -81,12 +103,13 @@ const ModernTheme: React.FC<ThemeProps> = ({ text, icon, background }) => {
         {/* 副标题 */}
         {text.subtitle && (
           <p
-            className="opacity-90 mb-6"
+            className="opacity-90"
             style={{
-              fontSize: text.fontSize * 0.4,
+              fontSize: text.fontSize * 0.4 * scale,
               fontWeight: text.fontWeight - 200,
               color: text.color,
               fontFamily: text.font,
+              marginBottom: `${24 * scale}px`,
             }}
           >
             {text.subtitle}
@@ -96,15 +119,23 @@ const ModernTheme: React.FC<ThemeProps> = ({ text, icon, background }) => {
         {/* 作者 */}
         {text.author && (
           <div
-            className="flex items-center gap-3 pt-6 border-t border-white/20"
+            className="flex items-center border-t border-white/20"
             style={{
-              fontSize: text.fontSize * 0.35,
+              fontSize: text.fontSize * 0.35 * scale,
               fontWeight: text.fontWeight - 100,
               color: text.color,
               fontFamily: text.font,
+              gap: `${12 * scale}px`,
+              paddingTop: `${24 * scale}px`,
             }}
           >
-            <div className="w-10 h-10 rounded-full bg-white/20"></div>
+            <div
+              className="rounded-full bg-white/20"
+              style={{
+                width: `${40 * scale}px`,
+                height: `${40 * scale}px`,
+              }}
+            ></div>
             <span>{text.author}</span>
           </div>
         )}

@@ -1,12 +1,13 @@
 import React from 'react';
 import { Icon } from '@iconify/react';
-import type { ThemeProps } from './types';
+import { getScale, type ThemeProps } from './types';
 
 /**
  * OutlineTheme - 轮廓边框风格
  * 强调边框和线条的设计
  */
-const OutlineTheme: React.FC<ThemeProps> = ({ text, icon, background }) => {
+const OutlineTheme: React.FC<ThemeProps> = ({ text, icon, background, width }) => {
+  const scale = getScale(width);
   const bgStyle: React.CSSProperties = {
     backgroundColor: background.solidColor || '#4F46E5',
   };
@@ -23,38 +24,49 @@ const OutlineTheme: React.FC<ThemeProps> = ({ text, icon, background }) => {
 
   return (
     <div
-      className="relative w-full h-full flex items-center justify-center p-16"
-      style={bgStyle}
+      className="relative w-full h-full flex items-center justify-center"
+      style={{
+        ...bgStyle,
+        padding: `${64 * scale}px`,
+      }}
     >
       {/* 外层边框容器 */}
       <div
-        className="relative border-4 p-16 max-w-5xl"
+        className="relative max-w-5xl"
         style={{
           borderColor: text.color,
-          borderRadius: background.borderRadius || 16,
+          borderWidth: `${4 * scale}px`,
+          borderStyle: 'solid',
+          borderRadius: `${(background.borderRadius || 16) * scale}px`,
+          padding: `${64 * scale}px`,
         }}
       >
         {/* 内层边框容器 */}
         <div
-          className="border-2 p-12"
           style={{
             borderColor: text.color,
-            borderRadius: (background.borderRadius || 16) - 8,
+            borderWidth: `${2 * scale}px`,
+            borderStyle: 'solid',
+            borderRadius: `${((background.borderRadius || 16) - 8) * scale}px`,
+            padding: `${48 * scale}px`,
           }}
         >
           {/* 图标 */}
           {icon.type === 'iconify' && icon.iconifyId && (
-            <div className="flex justify-center mb-8">
+            <div className="flex justify-center" style={{ marginBottom: `${32 * scale}px` }}>
               <div
-                className="border-2 rounded-full p-6"
+                className="rounded-full"
                 style={{
                   borderColor: text.color,
+                  borderWidth: `${2 * scale}px`,
+                  borderStyle: 'solid',
+                  padding: `${24 * scale}px`,
                 }}
               >
                 <Icon
                   icon={icon.iconifyId}
-                  width={icon.size * 0.8}
-                  height={icon.size * 0.8}
+                  width={icon.size * 0.8 * scale}
+                  height={icon.size * 0.8 * scale}
                   style={{
                     color: icon.color,
                     transform: `rotate(${icon.rotation}deg)`,
@@ -65,19 +77,22 @@ const OutlineTheme: React.FC<ThemeProps> = ({ text, icon, background }) => {
           )}
 
           {icon.type === 'custom' && icon.customUrl && (
-            <div className="flex justify-center mb-8">
+            <div className="flex justify-center" style={{ marginBottom: `${32 * scale}px` }}>
               <div
-                className="border-2 rounded-full p-6"
+                className="rounded-full"
                 style={{
                   borderColor: text.color,
+                  borderWidth: `${2 * scale}px`,
+                  borderStyle: 'solid',
+                  padding: `${24 * scale}px`,
                 }}
               >
                 <img
                   src={icon.customUrl}
                   alt="Custom icon"
                   style={{
-                    width: icon.size * 0.8,
-                    height: icon.size * 0.8,
+                    width: icon.size * 0.8 * scale,
+                    height: icon.size * 0.8 * scale,
                     transform: `rotate(${icon.rotation}deg)`,
                   }}
                 />
@@ -87,14 +102,15 @@ const OutlineTheme: React.FC<ThemeProps> = ({ text, icon, background }) => {
 
           {/* 标题 */}
           <h1
-            className="text-center font-bold leading-tight mb-6"
+            className="text-center font-bold leading-tight"
             style={{
-              fontSize: text.fontSize,
+              fontSize: text.fontSize * scale,
               fontWeight: text.fontWeight,
               color: text.color,
               fontFamily: text.font,
+              marginBottom: `${24 * scale}px`,
               textShadow: text.shadow
-                ? `0 4px ${text.shadowBlur}px ${text.shadowColor}`
+                ? `0 ${4 * scale}px ${text.shadowBlur * scale}px ${text.shadowColor}`
                 : 'none',
             }}
           >
@@ -103,8 +119,11 @@ const OutlineTheme: React.FC<ThemeProps> = ({ text, icon, background }) => {
 
           {/* 分割线 */}
           <div
-            className="w-32 h-1 mx-auto mb-6"
+            className="mx-auto"
             style={{
+              width: `${128 * scale}px`,
+              height: `${4 * scale}px`,
+              marginBottom: `${24 * scale}px`,
               backgroundColor: text.color,
             }}
           />
@@ -112,12 +131,13 @@ const OutlineTheme: React.FC<ThemeProps> = ({ text, icon, background }) => {
           {/* 副标题 */}
           {text.subtitle && (
             <p
-              className="text-center opacity-90 mb-8"
+              className="text-center opacity-90"
               style={{
-                fontSize: text.fontSize * 0.4,
+                fontSize: text.fontSize * 0.4 * scale,
                 fontWeight: text.fontWeight - 200,
                 color: text.color,
                 fontFamily: text.font,
+                marginBottom: `${32 * scale}px`,
               }}
             >
               {text.subtitle}
@@ -127,10 +147,13 @@ const OutlineTheme: React.FC<ThemeProps> = ({ text, icon, background }) => {
           {/* 作者 */}
           {text.author && (
             <div
-              className="text-center border-t-2 pt-6"
+              className="text-center"
               style={{
-                borderColor: text.color,
-                fontSize: text.fontSize * 0.35,
+                borderTopColor: text.color,
+                borderTopWidth: `${2 * scale}px`,
+                borderTopStyle: 'solid',
+                paddingTop: `${24 * scale}px`,
+                fontSize: text.fontSize * 0.35 * scale,
                 fontWeight: text.fontWeight - 100,
                 color: text.color,
                 fontFamily: text.font,
