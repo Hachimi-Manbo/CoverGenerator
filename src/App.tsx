@@ -10,7 +10,7 @@ function App() {
   return (
     <div className="flex h-screen w-screen overflow-hidden">
       {/* 左侧控制面板 */}
-      <div className="w-[350px] flex-shrink-0">
+      <div className="w-[420px] flex-shrink-0">
         <Controls />
       </div>
       

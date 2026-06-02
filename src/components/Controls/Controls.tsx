@@ -113,7 +113,7 @@ const Controls: React.FC = () => {
 
         {/* 主题选择 */}
         <CollapsibleSection title="主题模板" icon="mdi:palette" defaultOpen={true}>
-          <div className="grid grid-cols-1 gap-2">
+          <div className="grid grid-cols-2 gap-2">
             {THEMES.map((t) => (
               <button
                 key={t.id}
@@ -376,21 +376,6 @@ const Controls: React.FC = () => {
                 />
               </div>
             </div>
-
-            {/* 图标旋转 */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                旋转角度: {icon.rotation}°
-              </label>
-              <input
-                type="range"
-                min="-180"
-                max="180"
-                value={icon.rotation}
-                onChange={(e) => updateIcon({ rotation: parseInt(e.target.value) })}
-                className="w-full"
-              />
-            </div>
           </div>
         </CollapsibleSection>
 
@@ -633,27 +618,6 @@ const Controls: React.FC = () => {
                 )}
               </div>
             )}
-
-            {/* 通用背景效果 */}
-            <div className="pt-3 border-t border-gray-200">
-              <h3 className="text-sm font-medium text-gray-700 mb-2">通用效果</h3>
-              <div className="space-y-3">
-                {/* 圆角半径 */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                    圆角: {background.borderRadius || 0}px
-                  </label>
-                  <input
-                    type="range"
-                    min="0"
-                    max="50"
-                    value={background.borderRadius || 0}
-                    onChange={(e) => updateBackground({ borderRadius: parseInt(e.target.value) })}
-                    className="w-full"
-                  />
-                </div>
-              </div>
-            </div>
           </div>
         </CollapsibleSection>
 
