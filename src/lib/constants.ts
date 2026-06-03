@@ -93,7 +93,7 @@ export const DEFAULT_TEXT_CONFIG: TextConfig = {
   subtitle: 'Add a catchy subtitle here',
   author: 'Your Name',
   font: 'Inter',
-  fontSize: 48,
+  fontSize: 72,
   fontWeight: 700,
   color: '#FFFFFF',
   strokeColor: '#000000',
@@ -107,7 +107,7 @@ export const DEFAULT_TEXT_CONFIG: TextConfig = {
 export const DEFAULT_ICON_CONFIG: IconConfig = {
   type: 'iconify',
   iconifyId: 'logos:react',
-  size: 64,
+  size: 96,
   color: '#61DAFB',
   rotation: 0,
 };

@@ -20,7 +20,7 @@ const StylishTheme: React.FC<ThemeProps> = ({ text, icon, background, width }) =
         className="w-3/5 flex flex-col justify-center"
         style={{
           background: bgGradient,
-          padding: `${64 * scale}px`,
+          padding: `${40 * scale}px`,
         }}
       >
         {/* 图标 */}

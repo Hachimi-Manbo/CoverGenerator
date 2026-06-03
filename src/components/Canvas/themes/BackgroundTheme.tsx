@@ -42,7 +42,7 @@ const BackgroundTheme: React.FC<ThemeProps> = ({ text, icon, background, width }
       {/* 内容层 */}
       <div
         className="relative w-full h-full flex flex-col items-center justify-center"
-        style={{ padding: `${64 * scale}px` }}
+        style={{ padding: `${32 * scale}px` }}
       >
         {/* 图标 */}
         {icon.type === 'iconify' && icon.iconifyId && (

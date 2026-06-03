@@ -27,18 +27,18 @@ const OutlineTheme: React.FC<ThemeProps> = ({ text, icon, background, width }) =
       className="relative w-full h-full flex items-center justify-center"
       style={{
         ...bgStyle,
-        padding: `${64 * scale}px`,
+        padding: `${32 * scale}px`,
       }}
     >
       {/* 外层边框容器 */}
       <div
-        className="relative max-w-5xl"
+        className="relative w-full h-full flex flex-col justify-center"
         style={{
           borderColor: text.color,
           borderWidth: `${4 * scale}px`,
           borderStyle: 'solid',
           borderRadius: `${(background.borderRadius || 16) * scale}px`,
-          padding: `${64 * scale}px`,
+          padding: `${40 * scale}px`,
         }}
       >
         {/* 内层边框容器 */}
@@ -48,7 +48,7 @@ const OutlineTheme: React.FC<ThemeProps> = ({ text, icon, background, width }) =
             borderWidth: `${2 * scale}px`,
             borderStyle: 'solid',
             borderRadius: `${((background.borderRadius || 16) - 8) * scale}px`,
-            padding: `${48 * scale}px`,
+            padding: `${32 * scale}px`,
           }}
         >
           {/* 图标 */}

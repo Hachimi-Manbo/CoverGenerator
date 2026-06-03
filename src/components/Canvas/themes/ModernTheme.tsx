@@ -27,15 +27,15 @@ const ModernTheme: React.FC<ThemeProps> = ({ text, icon, background, width }) =>
       className="relative w-full h-full flex items-center justify-center"
       style={{
         ...bgStyle,
-        padding: `${48 * scale}px`,
+        padding: `${32 * scale}px`,
       }}
     >
       {/* 内容卡片 */}
       <div
-        className="relative bg-white/10 backdrop-blur-sm max-w-4xl shadow-2xl"
+        className="relative bg-white/10 backdrop-blur-sm w-full h-full flex flex-col justify-center shadow-2xl"
         style={{
           borderRadius: `${(background.borderRadius || 24) * scale}px`,
-          padding: `${48 * scale}px`,
+          padding: `${40 * scale}px`,
         }}
       >
         {/* 图标 - 左上角 */}

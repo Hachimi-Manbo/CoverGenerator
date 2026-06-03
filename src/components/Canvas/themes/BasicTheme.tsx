@@ -30,7 +30,7 @@ const BasicTheme: React.FC<ThemeProps> = ({ text, icon, background, width }) => 
       className="relative w-full h-full flex flex-col items-center justify-center"
       style={{
         ...bgStyle,
-        padding: `${48 * scale}px`,
+        padding: `${24 * scale}px`,
       }}
     >
       {/* 图标 */}

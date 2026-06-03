@@ -13,16 +13,16 @@ const PreviewTheme: React.FC<ThemeProps> = ({ text, icon, background, width }) =
   return (
     <div
       className="relative w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200"
-      style={{ padding: `${48 * scale}px` }}
+      style={{ padding: `${20 * scale}px` }}
     >
       {/* 浏览器窗口容器 */}
       <div
-        className="w-full max-w-5xl bg-white shadow-2xl overflow-hidden"
+        className="w-full h-full flex flex-col bg-white shadow-2xl overflow-hidden"
         style={{ borderRadius: `${32 * scale}px` }}
       >
         {/* 浏览器顶栏 */}
         <div
-          className="bg-gray-200 flex items-center border-b border-gray-300"
+          className="bg-gray-200 flex items-center border-b border-gray-300 flex-shrink-0"
           style={{
             paddingLeft: `${24 * scale}px`,
             paddingRight: `${24 * scale}px`,
@@ -68,7 +68,7 @@ const PreviewTheme: React.FC<ThemeProps> = ({ text, icon, background, width }) =
 
         {/* 内容区域 */}
         <div
-          className="relative flex flex-col items-center justify-center"
+          className="relative flex-1 flex flex-col items-center justify-center"
           style={{
             background: background.type === 'gradient'
               ? `linear-gradient(${background.gradientAngle || 135}deg, ${background.gradientStart || '#4F46E5'}, ${background.gradientEnd || '#7C3AED'})`
@@ -78,8 +78,7 @@ const PreviewTheme: React.FC<ThemeProps> = ({ text, icon, background, width }) =
               : 'none',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            padding: `${64 * scale}px`,
-            minHeight: `${400 * scale}px`,
+            padding: `${32 * scale}px`,
           }}
         >
           {/* 图标 */}
