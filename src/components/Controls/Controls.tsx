@@ -6,7 +6,7 @@ import { Icon } from '@iconify/react';
 import IconPicker from './IconPicker';
 import CollapsibleSection from './CollapsibleSection';
 import ShortcutsHelp from '../ProjectManager/ShortcutsHelp';
-import { exportSingleCover, exportMultipleRatios } from '@/lib/export';
+import { exportSingleCover } from '@/lib/export';
 
 /**
  * Controls 组件 - 编辑控制面板
@@ -40,34 +40,6 @@ const Controls: React.FC = () => {
     } catch (error) {
       console.error('Export failed:', error);
       alert('导出失败，请重试');
-    } finally {
-      setIsExporting(false);
-    }
-  };
-
-  // 批量导出所有选中比例
-  const handleExportAll = async () => {
-    if (selectedRatios.length === 0) {
-      alert('请至少选择一个比例');
-      return;
-    }
-
-    setIsExporting(true);
-    try {
-      const element = document.getElementById('cover-canvas');
-      if (!element) {
-        throw new Error('Canvas element not found');
-      }
-      
-      const baseFilename = text.title
-        .replace(/[^a-zA-Z0-9\u4e00-\u9fa5]/g, '-')
-        .substring(0, 50) || 'cover';
-      
-      await exportMultipleRatios(element, selectedRatios, baseFilename);
-      alert(`成功导出 ${selectedRatios.length} 个文件！`);
-    } catch (error) {
-      console.error('Batch export failed:', error);
-      alert('批量导出失败，请重试');
     } finally {
       setIsExporting(false);
     }
@@ -647,18 +619,6 @@ const Controls: React.FC = () => {
           >
             <Icon icon="mdi:download" width={20} className="mr-2" />
             {isExporting ? '导出中...' : '导出当前比例'}
-          </Button>
-
-          {/* 批量导出 */}
-          <Button 
-            className="w-full" 
-            size="lg"
-            variant="outline"
-            onClick={handleExportAll}
-            disabled={isExporting || selectedRatios.length === 0}
-          >
-            <Icon icon="mdi:folder-multiple-image" width={20} className="mr-2" />
-            批量导出 ({selectedRatios.length})
           </Button>
 
           {/* 项目管理 */}

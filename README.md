@@ -54,7 +54,6 @@ A powerful desktop app for creating beautiful cover images quickly. Supports mul
 - 保存设计为项目文件（.json）
 - 加载已保存的项目
 - 最近项目列表（持久化到 localStorage）
-- 批量导出所选比例
 
 ### ⌨️ 快捷键支持
 - `Ctrl+S` - 保存项目
@@ -143,12 +142,10 @@ npm run tauri build
 ### 5️⃣ 选择比例
 - 在"比例选择"中勾选需要的比例
 - 画布会实时切换到选中的比例
-- 支持多选（批量导出时使用）
 
 ### 6️⃣ 导出封面
-- **单个导出**: 点击"导出当前比例"或按 `Ctrl+E`
-- **批量导出**: 点击"批量导出 (n)"，选择保存目录
-- 支持 PNG 格式，2x 分辨率（高质量）
+- 点击"导出当前比例"或按 `Ctrl+E`
+- 支持 PNG 格式，高质量输出
 
 ### 7️⃣ 保存项目
 - 点击"保存项目"或按 `Ctrl+S`
@@ -207,7 +204,6 @@ cover-generator/
 - ✅ 背景自定义（纯色/渐变/图片）
 - ✅ 6 种比例支持（16:9, 4:3, 1:1, 3:2, 21:9, 9:16）
 - ✅ 项目保存/加载（.json 格式）
-- ✅ 批量导出功能
 - ✅ 快捷键支持（Ctrl+S, Ctrl+O, Ctrl+E）
 - ✅ 打包优化（体积优化、Release 配置）
 
@@ -266,7 +262,7 @@ cover-generator/
 - [x] Phase 2: 主题系统实现
 - [x] Phase 3: 图标和文字控制
 - [x] Phase 4: 背景图片和搜索
-- [x] Phase 5: 项目管理和批量导出
+- [x] Phase 5: 项目管理功能
 - [ ] Phase 6: 优化和打包
 
 ## 📝 许可证

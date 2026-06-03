@@ -9,7 +9,6 @@ import { exportSingleCover } from '@/lib/export';
  * - Ctrl+S: 保存项目
  * - Ctrl+O: 打开/加载项目
  * - Ctrl+E: 导出当前比例
- * - Ctrl+Shift+E: 批量导出所有比例
  */
 export function useKeyboardShortcuts() {
   const { saveToFile, loadFromFile, previewRatio, text } = useCoverStore();
@@ -54,12 +53,6 @@ export function useKeyboardShortcuts() {
           console.error('导出失败:', error);
         }
       }
-
-      // Ctrl+Shift+E: 批量导出（保留用于未来实现）
-      // else if (event.shiftKey && (event.key === 'e' || event.key === 'E')) {
-      //   event.preventDefault();
-      //   // 批量导出逻辑
-      // }
     };
 
     // 添加事件监听器
