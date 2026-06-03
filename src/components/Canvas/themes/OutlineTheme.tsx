@@ -38,7 +38,7 @@ const OutlineTheme: React.FC<ThemeProps> = ({ text, icon, background, width }) =
           borderWidth: `${4 * scale}px`,
           borderStyle: 'solid',
           borderRadius: `${(background.borderRadius || 16) * scale}px`,
-          padding: `${40 * scale}px`,
+          padding: `${64 * scale}px`,
         }}
       >
         {/* 内层边框容器 */}
@@ -48,7 +48,7 @@ const OutlineTheme: React.FC<ThemeProps> = ({ text, icon, background, width }) =
             borderWidth: `${2 * scale}px`,
             borderStyle: 'solid',
             borderRadius: `${((background.borderRadius || 16) - 8) * scale}px`,
-            padding: `${32 * scale}px`,
+            padding: `${64 * scale}px`,
           }}
         >
           {/* 图标 */}
@@ -104,7 +104,7 @@ const OutlineTheme: React.FC<ThemeProps> = ({ text, icon, background, width }) =
           <h1
             className="text-center font-bold leading-tight"
             style={{
-              fontSize: text.fontSize * scale,
+              fontSize: text.fontSize * 1.2 *scale,
               fontWeight: text.fontWeight,
               color: text.color,
               fontFamily: text.font,
@@ -133,7 +133,7 @@ const OutlineTheme: React.FC<ThemeProps> = ({ text, icon, background, width }) =
             <p
               className="text-center opacity-90"
               style={{
-                fontSize: text.fontSize * 0.4 * scale,
+                fontSize: text.fontSize * 0.45 * scale,
                 fontWeight: text.fontWeight - 200,
                 color: text.color,
                 fontFamily: text.font,
@@ -153,7 +153,7 @@ const OutlineTheme: React.FC<ThemeProps> = ({ text, icon, background, width }) =
                 borderTopWidth: `${2 * scale}px`,
                 borderTopStyle: 'solid',
                 paddingTop: `${24 * scale}px`,
-                fontSize: text.fontSize * 0.35 * scale,
+                fontSize: text.fontSize * 0.45 * scale,
                 fontWeight: text.fontWeight - 100,
                 color: text.color,
                 fontFamily: text.font,

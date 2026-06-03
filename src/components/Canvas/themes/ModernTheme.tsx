@@ -27,7 +27,7 @@ const ModernTheme: React.FC<ThemeProps> = ({ text, icon, background, width }) =>
       className="relative w-full h-full flex items-center justify-center"
       style={{
         ...bgStyle,
-        padding: `${32 * scale}px`,
+        padding: `${128 * scale}px`,
       }}
     >
       {/* 内容卡片 */}
@@ -35,7 +35,7 @@ const ModernTheme: React.FC<ThemeProps> = ({ text, icon, background, width }) =>
         className="relative bg-white/10 backdrop-blur-sm w-full h-full flex flex-col justify-center shadow-2xl"
         style={{
           borderRadius: `${(background.borderRadius || 24) * scale}px`,
-          padding: `${40 * scale}px`,
+          padding: `${64 * scale}px`,
         }}
       >
         {/* 图标 - 左上角 */}
@@ -43,8 +43,8 @@ const ModernTheme: React.FC<ThemeProps> = ({ text, icon, background, width }) =>
           <div
             className="absolute bg-white shadow-lg"
             style={{
-              top: `${-24 * scale}px`,
-              left: `${-24 * scale}px`,
+              top: `${24 * scale}px`,
+              left: `${24 * scale}px`,
               borderRadius: `${32 * scale}px`,
               padding: `${16 * scale}px`,
             }}
@@ -87,7 +87,7 @@ const ModernTheme: React.FC<ThemeProps> = ({ text, icon, background, width }) =>
         <h1
           className="font-bold leading-tight"
           style={{
-            fontSize: text.fontSize * scale,
+            fontSize: text.fontSize * 1.2 * scale,
             fontWeight: text.fontWeight,
             color: text.color,
             fontFamily: text.font,
@@ -105,7 +105,7 @@ const ModernTheme: React.FC<ThemeProps> = ({ text, icon, background, width }) =>
           <p
             className="opacity-90"
             style={{
-              fontSize: text.fontSize * 0.4 * scale,
+              fontSize: text.fontSize * 0.5 * scale,
               fontWeight: text.fontWeight - 200,
               color: text.color,
               fontFamily: text.font,
@@ -121,7 +121,7 @@ const ModernTheme: React.FC<ThemeProps> = ({ text, icon, background, width }) =>
           <div
             className="flex items-center border-t border-white/20"
             style={{
-              fontSize: text.fontSize * 0.35 * scale,
+              fontSize: text.fontSize * 0.5 * scale,
               fontWeight: text.fontWeight - 100,
               color: text.color,
               fontFamily: text.font,

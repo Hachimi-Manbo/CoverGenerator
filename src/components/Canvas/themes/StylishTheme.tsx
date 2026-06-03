@@ -20,7 +20,7 @@ const StylishTheme: React.FC<ThemeProps> = ({ text, icon, background, width }) =
         className="w-3/5 flex flex-col justify-center"
         style={{
           background: bgGradient,
-          padding: `${40 * scale}px`,
+          padding: `${128 * scale}px`,
         }}
       >
         {/* 图标 */}
@@ -56,7 +56,7 @@ const StylishTheme: React.FC<ThemeProps> = ({ text, icon, background, width }) =
         <h1
           className="font-bold leading-tight"
           style={{
-            fontSize: text.fontSize * scale,
+            fontSize: text.fontSize * 1.2 * scale,
             fontWeight: text.fontWeight,
             color: text.color,
             fontFamily: text.font,
@@ -74,7 +74,7 @@ const StylishTheme: React.FC<ThemeProps> = ({ text, icon, background, width }) =
           <p
             className="opacity-90"
             style={{
-              fontSize: text.fontSize * 0.4 * scale,
+              fontSize: text.fontSize * 0.5 * scale,
               fontWeight: text.fontWeight - 200,
               color: text.color,
               fontFamily: text.font,
@@ -113,7 +113,7 @@ const StylishTheme: React.FC<ThemeProps> = ({ text, icon, background, width }) =
           <div
             className="absolute left-1/2 transform -translate-x-1/2 text-center"
             style={{
-              fontSize: text.fontSize * 0.35 * scale,
+              fontSize: text.fontSize * 0.45 * scale,
               fontWeight: text.fontWeight - 100,
               color: text.color,
               fontFamily: text.font,

@@ -91,7 +91,7 @@ const BackgroundTheme: React.FC<ThemeProps> = ({ text, icon, background, width }
         <h1
           className="text-center font-bold leading-tight"
           style={{
-            fontSize: text.fontSize * scale,
+            fontSize: text.fontSize * 1.2* scale,
             fontWeight: text.fontWeight,
             color: text.color,
             fontFamily: text.font,
@@ -109,7 +109,7 @@ const BackgroundTheme: React.FC<ThemeProps> = ({ text, icon, background, width }
           <p
             className="text-center opacity-95"
             style={{
-              fontSize: text.fontSize * 0.4 * scale,
+              fontSize: text.fontSize * 0.5 * scale,
               fontWeight: text.fontWeight - 200,
               color: text.color,
               fontFamily: text.font,
@@ -132,7 +132,7 @@ const BackgroundTheme: React.FC<ThemeProps> = ({ text, icon, background, width }
               paddingRight: `${32 * scale}px`,
               paddingTop: `${12 * scale}px`,
               paddingBottom: `${12 * scale}px`,
-              fontSize: text.fontSize * 0.35 * scale,
+              fontSize: text.fontSize * 0.45 * scale,
               fontWeight: text.fontWeight - 100,
               color: text.color,
               fontFamily: text.font,

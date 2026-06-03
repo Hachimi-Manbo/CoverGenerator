@@ -29,8 +29,6 @@ const Canvas: React.FC = () => {
       </div>
     );
   }
-
-  const aspectRatio = ratio.width / ratio.height;
   
   // 计算预览缩放比例（将完整分辨率缩放到 900px 宽度）
   const previewMaxWidth = 900;

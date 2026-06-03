@@ -24,26 +24,26 @@ const PreviewTheme: React.FC<ThemeProps> = ({ text, icon, background, width }) =
         <div
           className="bg-gray-200 flex items-center border-b border-gray-300 flex-shrink-0"
           style={{
-            paddingLeft: `${24 * scale}px`,
-            paddingRight: `${24 * scale}px`,
+            paddingLeft: `${32 * scale}px`,
+            paddingRight: `${32 * scale}px`,
             paddingTop: `${16 * scale}px`,
             paddingBottom: `${16 * scale}px`,
             gap: `${8 * scale}px`,
           }}
         >
           {/* 窗口控制按钮 */}
-          <div className="flex" style={{ gap: `${8 * scale}px` }}>
+          <div className="flex" style={{ gap: `${16 * scale}px` }}>
             <div
               className="rounded-full bg-red-500"
-              style={{ width: `${12 * scale}px`, height: `${12 * scale}px` }}
+              style={{ width: `${24 * scale}px`, height: `${24 * scale}px` }}
             ></div>
             <div
               className="rounded-full bg-yellow-500"
-              style={{ width: `${12 * scale}px`, height: `${12 * scale}px` }}
+              style={{ width: `${24 * scale}px`, height: `${24 * scale}px` }}
             ></div>
             <div
               className="rounded-full bg-green-500"
-              style={{ width: `${12 * scale}px`, height: `${12 * scale}px` }}
+              style={{ width: `${24 * scale}px`, height: `${24 * scale}px` }}
             ></div>
           </div>
 
@@ -52,16 +52,16 @@ const PreviewTheme: React.FC<ThemeProps> = ({ text, icon, background, width }) =
             className="flex-1 bg-white text-gray-500 flex items-center truncate"
             style={{
               marginLeft: `${16 * scale}px`,
-              borderRadius: `${8 * scale}px`,
+              borderRadius: `${16 * scale}px`,
               paddingLeft: `${16 * scale}px`,
               paddingRight: `${16 * scale}px`,
-              paddingTop: `${6 * scale}px`,
-              paddingBottom: `${6 * scale}px`,
-              fontSize: `${14 * scale}px`,
+              paddingTop: `${16 * scale}px`,
+              paddingBottom: `${16 * scale}px`,
+              fontSize: `${24 * scale}px`,
               gap: `${8 * scale}px`,
             }}
           >
-            <Icon icon="mdi:lock" width={16 * scale} />
+            <Icon icon="mdi:lock" width={24 * scale} />
             <span className="truncate">{text.title.toLowerCase().replace(/\s+/g, '-')}.dev</span>
           </div>
         </div>
@@ -114,7 +114,7 @@ const PreviewTheme: React.FC<ThemeProps> = ({ text, icon, background, width }) =
           <h1
             className="text-center font-bold leading-tight"
             style={{
-              fontSize: text.fontSize * scale,
+              fontSize: text.fontSize * 1.2 * scale,
               fontWeight: text.fontWeight,
               color: text.color,
               fontFamily: text.font,
@@ -132,7 +132,7 @@ const PreviewTheme: React.FC<ThemeProps> = ({ text, icon, background, width }) =
             <p
               className="text-center opacity-90"
               style={{
-                fontSize: text.fontSize * 0.4 * scale,
+                fontSize: text.fontSize * 0.5 * scale,
                 fontWeight: text.fontWeight - 200,
                 color: text.color,
                 fontFamily: text.font,
@@ -153,7 +153,7 @@ const PreviewTheme: React.FC<ThemeProps> = ({ text, icon, background, width }) =
                 paddingRight: `${24 * scale}px`,
                 paddingTop: `${8 * scale}px`,
                 paddingBottom: `${8 * scale}px`,
-                fontSize: text.fontSize * 0.3 * scale,
+                fontSize: text.fontSize * 0.4 * scale,
                 fontWeight: text.fontWeight - 100,
                 color: text.color,
                 fontFamily: text.font,
