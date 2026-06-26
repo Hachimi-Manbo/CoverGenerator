@@ -4,8 +4,7 @@ import { RATIOS } from './constants';
 import { 
   isTauri, 
   saveBinaryFile, 
-  openSaveDialog, 
-  openDirectoryDialog 
+  openSaveDialog,
 } from './tauri';
 
 /**

@@ -19,7 +19,6 @@ const Controls: React.FC = () => {
     icon,
     background,
     previewRatio,
-    selectedRatios,
     updateTheme,
     updateText,
     updateIcon,
